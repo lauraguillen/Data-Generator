@@ -7,6 +7,7 @@ import writer
 # Have to finish this PESEL number generator, it should take client's bday and sex to generate it
 # ...
 
+
 def divide(name):
     space = name.find(" ")
     first = name[:space]

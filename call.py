@@ -6,6 +6,7 @@ import writer
 from faker import Faker
 
 fake = Faker()
+the_date = datetime.date(2016, 6, 6)
 
 
 def generate_call(launch_date):  # This isn't finished, the problem is, that we need to store the date when was call
@@ -18,7 +19,15 @@ def generate_call(launch_date):  # This isn't finished, the problem is, that we 
 
 
 def generate_output():
+    pesel = general.generate_pesel(fake.b)
     call_id = general.generate_id()
-    writer.export_data([general.generate_id(),  ])  #  ..............
+    call = generate_call(the_date)
+    writer.export_data([call_id,
+                        "Here should be PESEL",
+                        "Here should be department id",
+                        call[0],
+                        call[1],
+                        call[2],
+                        call[3]], "calls.csv")
 
 

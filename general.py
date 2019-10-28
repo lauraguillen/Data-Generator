@@ -7,7 +7,7 @@ def generate_id():
     return key_id
 
 
-def generate_pesel(bday, sex):
+def generate_pesel(bday):
     number = ""
     year = str(bday.year)[:-2]
     month = str(bday.month)
