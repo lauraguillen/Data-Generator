@@ -19,11 +19,11 @@ def generate_call(launch_date):  # This isn't finished, the problem is, that we 
 
 
 def generate_output():
-    pesel = general.generate_pesel(fake.b)
+    pesel = general.generate_pesel("2010, 1, 1")
     call_id = general.generate_id()
     call = generate_call(the_date)
     writer.export_data([call_id,
-                        "Here should be PESEL",
+                        pesel,
                         "Here should be department id",
                         call[0],
                         call[1],

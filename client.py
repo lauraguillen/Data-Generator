@@ -2,6 +2,7 @@ from faker import Faker  # This library is for generating client's information
 import random
 import main
 import writer
+import general
 
 fake = Faker()
 
@@ -28,7 +29,9 @@ def generate_phone(country):  # Simple phone number generator
 
 def generate_output():
     person = generate_client()
-    person_rows = [main.divide(person["name"])[0],
+    pesel = general.generate_pesel(person["birthdate"])
+    person_rows = [pesel,
+                   main.divide(person["name"])[0],
                    main.divide(person["name"])[1],
                    person["mail"],
                    person["residence"].replace("\n", " "),

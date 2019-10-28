@@ -1,3 +1,4 @@
+from faker import Faker
 import random
 import string
 import writer
@@ -8,6 +9,7 @@ import general
 '''
 Here we have info about three plans, with their names, prices, minutes, etc...
 '''
+fake = Faker()
 
 
 def generate_plan():
@@ -44,4 +46,5 @@ def generate_plan():
 def generate_output():
     numeric_id = general.generate_id()
     plan = generate_plan()
-    writer.export_data([numeric_id, plan[0], plan[1], plan[2], plan[3]])
+    expiration_date = fake.date_between(start_date=plan[4], end_date='now')
+    writer.export_data([numeric_id, plan[0], plan[1], plan[2], expiration_date, plan[3]], "mobile_plans.csv")
