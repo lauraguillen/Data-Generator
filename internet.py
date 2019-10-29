@@ -47,6 +47,7 @@ def generate_internet_plan():
 def generate_output():
     numeric_id = general.generate_id()
     plan = generate_internet_plan()
-    expiration_date = mobile.fake.date_between(start_date=plan[4], end_date='now')
     internet_plan = [numeric_id, plan[0], plan[1], plan[2], plan[3], expiration_date, plan[4]]
+    contract_date = fake.date_between(start_date=plan[4], end_date='now')
+    expiration_date = mobile.fake.date_between(start_date=contract_date, end_date='now')
     writer.export_data(internet_plan, "output/internet_plans.csv")
