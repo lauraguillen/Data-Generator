@@ -44,8 +44,19 @@ def generate_plan():
     return [name, price, minute, mb, date]
 
 
+plan = generate_plan()
+
+
 def generate_output():
     numeric_id = general.generate_id()
-    plan = generate_plan()
     expiration_date = fake.date_between(start_date=plan[4], end_date='now')
     writer.export_data([numeric_id, plan[0], plan[1], plan[2], expiration_date, plan[3]], "output/mobile_plans.csv")
+
+
+def client_output():
+    numeric_id = general.generate_id()
+    pesel = general.generate_pesel(fake.date_of_birth())
+    contract = fake.date_between(start_date=plan[4], end_date='now')
+    permanence = fake.date_between(start_date=contract, end_date='now')
+    client_mobile = [numeric_id, pesel, contract, permanence]
+    writer.export_data(client_mobile, "output/client_mobile.csv")
