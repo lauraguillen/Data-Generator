@@ -21,6 +21,7 @@ def main():
         call.generate_output()
         internet.generate_output()
         mobile.generate_output()
+        mobile.client_output()
 
 
 main()
