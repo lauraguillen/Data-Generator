@@ -9,10 +9,11 @@ def generate_id():
 
 def generate_pesel(bday):
     number = ""
-    year = str(bday.year)[:-2]
+    year = bday.year
+    year_str = str(year)[:-2]
     month = str(bday.month)
     day = str(bday.day)
-    number.join(year + month + day)
+    number.join(year_str + month + day)
     for i in range(11):
         number = number + str(random.randint(1, 9))
     return number

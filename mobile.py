@@ -3,6 +3,7 @@ import random
 import string
 import writer
 import general
+import datetime
 #   An alphanumeric code generator
 
 
@@ -17,7 +18,7 @@ def generate_plan():
     prices = [30, 50, 60]  # PLN
     minutes = [100, 120, -1]  # -1 means unlimited
     mbs = [15, 20, 25]  # in Gb
-    launch_date = ["06.06.2016", "07.07.2017", "08.08.2018"]
+    launch_date = [datetime.date(2016, 6, 6), datetime.date(2017, 7, 7), datetime.date(2018, 8, 8)]
     # TO-DO we need to add launched date just like the prices, minutes, etc...
     name = random.choice(names)
     price = None
@@ -47,4 +48,4 @@ def generate_output():
     numeric_id = general.generate_id()
     plan = generate_plan()
     expiration_date = fake.date_between(start_date=plan[4], end_date='now')
-    writer.export_data([numeric_id, plan[0], plan[1], plan[2], expiration_date, plan[3]], "mobile_plans.csv")
+    writer.export_data([numeric_id, plan[0], plan[1], plan[2], expiration_date, plan[3]], "output/mobile_plans.csv")

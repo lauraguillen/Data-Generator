@@ -1,6 +1,5 @@
 from faker import Faker  # This library is for generating client's information
 import random
-import main
 import writer
 import general
 
@@ -8,7 +7,7 @@ fake = Faker()
 
 
 def generate_client():
-    return fake.profile()  # This generates client's name, surname, mail, address, bday and other stuff that we don't need
+    return fake.profile()  #  This generates client's name, surname, mail, address, bday and other stuff that we don't need
 
 
 def generate_phone(country):  # Simple phone number generator
@@ -28,6 +27,7 @@ def generate_phone(country):  # Simple phone number generator
 
 
 def generate_output():
+    import main
     person = generate_client()
     pesel = general.generate_pesel(person["birthdate"])
     person_rows = [pesel,
