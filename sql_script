@@ -1,0 +1,169 @@
+-- Database generated with pgModeler (PostgreSQL Database Modeler).
+-- pgModeler  version: 0.9.1
+-- PostgreSQL version: 10.0
+-- Project Site: pgmodeler.io
+-- Model Author: ---
+
+
+-- Database creation must be done outside a multicommand file.
+-- These commands were put in this file only as a convenience.
+-- -- object: new_database | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS new_database;
+-- CREATE DATABASE new_database;
+-- -- ddl-end --
+-- 
+
+-- object: public.calls | type: TABLE --
+-- DROP TABLE IF EXISTS public.calls CASCADE;
+CREATE TABLE public.calls(
+	call_id numeric(10) NOT NULL,
+	"call_tele_PESEL" numeric(10),
+	call_satisfaction_grade numeric(1),
+	call_response_time numeric(2),
+	call_date date,
+	"cli_PESEL_clients" numeric(11),
+	CONSTRAINT calls_pk PRIMARY KEY (call_id)
+
+);
+-- ddl-end --
+ALTER TABLE public.calls OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.departments | type: TABLE --
+-- DROP TABLE IF EXISTS public.departments CASCADE;
+CREATE TABLE public.departments(
+	dept_id character varying(15) NOT NULL,
+	dept_name character varying(20),
+	call_id_calls numeric(10),
+	CONSTRAINT departments_pk PRIMARY KEY (dept_id)
+
+);
+-- ddl-end --
+ALTER TABLE public.departments OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.client_m_plans | type: TABLE --
+-- DROP TABLE IF EXISTS public.client_m_plans CASCADE;
+CREATE TABLE public.client_m_plans(
+	"cli-mb_contract_day" date NOT NULL,
+	mb_id_mobile_plans character varying(15),
+	"cli_PESEL_clients" numeric(11),
+	"cli-mb_permanence_date" date,
+	CONSTRAINT client_m_plans_pk PRIMARY KEY ("cli-mb_contract_day")
+
+);
+-- ddl-end --
+ALTER TABLE public.client_m_plans OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.client_int_plans | type: TABLE --
+-- DROP TABLE IF EXISTS public.client_int_plans CASCADE;
+CREATE TABLE public.client_int_plans(
+	"cli-i_contract_date" date,
+	"cli-i_permanence_date" date,
+	i_id_internet_plans character varying(15),
+	"cli_PESEL_clients" numeric(11)
+);
+-- ddl-end --
+ALTER TABLE public.client_int_plans OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.mobile_plans | type: TABLE --
+-- DROP TABLE IF EXISTS public.mobile_plans CASCADE;
+CREATE TABLE public.mobile_plans(
+	mb_id character varying(15) NOT NULL,
+	mb_name character varying(20),
+	mb_price float,
+	mb_minutes numeric(5),
+	mb_internet float,
+	mb_expiration_date date,
+	mb_launch_date date,
+	CONSTRAINT mobile_plans_pk PRIMARY KEY (mb_id)
+
+);
+-- ddl-end --
+ALTER TABLE public.mobile_plans OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.internet_plans | type: TABLE --
+-- DROP TABLE IF EXISTS public.internet_plans CASCADE;
+CREATE TABLE public.internet_plans(
+	i_id character varying(15) NOT NULL,
+	i_name character varying(20),
+	i_price float,
+	i_bandwitdh float,
+	i_minutes numeric(5),
+	i_expiration_date date,
+	i_launch_date date,
+	CONSTRAINT internet_plans_pk PRIMARY KEY (i_id)
+
+);
+-- ddl-end --
+ALTER TABLE public.internet_plans OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.clients | type: TABLE --
+-- DROP TABLE IF EXISTS public.clients CASCADE;
+CREATE TABLE public.clients(
+	"cli_PESEL" numeric(11) NOT NULL,
+	cli_name character varying(20),
+	cli_middle_name character varying(20),
+	cli_surname character varying(30),
+	cli_email character varying(50),
+	cli_address character varying(50),
+	cli_telephone_number character varying(12),
+	CONSTRAINT clients_pk PRIMARY KEY ("cli_PESEL")
+
+);
+-- ddl-end --
+ALTER TABLE public.clients OWNER TO postgres;
+-- ddl-end --
+
+-- object: mobile_plans_fk | type: CONSTRAINT --
+-- ALTER TABLE public.client_m_plans DROP CONSTRAINT IF EXISTS mobile_plans_fk CASCADE;
+ALTER TABLE public.client_m_plans ADD CONSTRAINT mobile_plans_fk FOREIGN KEY (mb_id_mobile_plans)
+REFERENCES public.mobile_plans (mb_id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: clients_fk | type: CONSTRAINT --
+-- ALTER TABLE public.client_m_plans DROP CONSTRAINT IF EXISTS clients_fk CASCADE;
+ALTER TABLE public.client_m_plans ADD CONSTRAINT clients_fk FOREIGN KEY ("cli_PESEL_clients")
+REFERENCES public.clients ("cli_PESEL") MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: internet_plans_fk | type: CONSTRAINT --
+-- ALTER TABLE public.client_int_plans DROP CONSTRAINT IF EXISTS internet_plans_fk CASCADE;
+ALTER TABLE public.client_int_plans ADD CONSTRAINT internet_plans_fk FOREIGN KEY (i_id_internet_plans)
+REFERENCES public.internet_plans (i_id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: clients_fk | type: CONSTRAINT --
+-- ALTER TABLE public.client_int_plans DROP CONSTRAINT IF EXISTS clients_fk CASCADE;
+ALTER TABLE public.client_int_plans ADD CONSTRAINT clients_fk FOREIGN KEY ("cli_PESEL_clients")
+REFERENCES public.clients ("cli_PESEL") MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: clients_fk | type: CONSTRAINT --
+-- ALTER TABLE public.calls DROP CONSTRAINT IF EXISTS clients_fk CASCADE;
+ALTER TABLE public.calls ADD CONSTRAINT clients_fk FOREIGN KEY ("cli_PESEL_clients")
+REFERENCES public.clients ("cli_PESEL") MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: calls_fk | type: CONSTRAINT --
+-- ALTER TABLE public.departments DROP CONSTRAINT IF EXISTS calls_fk CASCADE;
+ALTER TABLE public.departments ADD CONSTRAINT calls_fk FOREIGN KEY (call_id_calls)
+REFERENCES public.calls (call_id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: departments_uq | type: CONSTRAINT --
+-- ALTER TABLE public.departments DROP CONSTRAINT IF EXISTS departments_uq CASCADE;
+ALTER TABLE public.departments ADD CONSTRAINT departments_uq UNIQUE (call_id_calls);
+-- ddl-end --
+
+
